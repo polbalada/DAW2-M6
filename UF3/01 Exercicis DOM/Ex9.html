@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>Creació d'una taula</title>
+<meta name="description" content="Exercici DOM" />
+<script type="text/javascript">
+    function processar() {
+        
+
+        var taules = document.getElementsByTagName("table");   
+        alert(taules.length);
+        alert(taules[0].rows[0].cells[0].innerHTML);
+        
+        novataula = document.getElementById("novataula");
+        novataula.innerHTML = "<table><tr><td>Hongria</td></tr></table>";
+        
+        alert(taules.length);
+        alert(taules[1].rows[0].cells[0].innerHTML);
+
+        document.write ('<table>');
+        document.write ('<tr><td>Algèria</td></tr>');
+        document.write ('<tr><td>Noruega</td></tr>');
+        document.write ('<tr><td>Grècia</td></tr>');  
+        document.write ('</table>');
+
+          alert(taules.length);
+        alert(taules[0].rows[0].cells[0].innerHTML);
+        
+    }
+</script>
+
+<body onload="processar()">
+<table border="1">
+<tr><td>França</td></tr>
+<tr><td>Anglaterra</td></tr>
+ <tr><td>Marroc</td></tr>    
+ </table>
+ 
+ <div id="novataula">Nou país</div>
+ 
+ </html>

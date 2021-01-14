@@ -1,0 +1,56 @@
+ <!DOCTYPE html>
+    <html lang="es-ar">
+    <head>
+    <meta charset="utf-8" />
+    <title>Comptar elements</title>
+    <meta name="description" content="Exercici DOM" />
+    <script type="text/javascript">
+    //<![CDATA[
+
+    function canviar_a_blau_cel() {
+		for(i=0; elem=document.frm_dades_personals.elements[i]; i++)          
+		{
+			//elem.style.background = 'lightblue';
+			elem.style.background = '#aaaaff';
+		}
+	}
+
+    function canviar_els_labels() {
+		labels = document.getElementsByTagName("label");
+		for (i=0;i<labels.length;i++)           
+		{
+			labels[i].style.background = '#aaaaff';
+		}
+	}
+
+    //]]>
+    </script>
+    </head>
+    <body>
+    <form name="frm_dades_personals" id="formu" action="processar.htm">
+    <input type="hidden" name="num" value="12"><br />
+    <label>nom:</label> <input type="text" name="nom"><br />
+    <label>cognoms:</label> <input type="text" name="cognom"><br />
+	<label>password:</label> <input type="password" name="pwd"><br />
+	<label>sexe
+	<input type="radio" name="sex" value="male" >Male
+	<input type="radio" name="sex" value="female">Female<br />
+	</label>
+	<label>
+	<input type="checkbox" name="chk_bici" value="bici">Bicicleta<br />
+	<input type="checkbox" name="chk_cotxe" value="cotxe">Cotxe<br /> 
+	</label>
+	<select name="cotxes">
+	<option value="volvo">Volvo</option>
+	<option value="saab">Saab</option>
+	<option value="fiat">Fiat</option>
+	<option value="audi">Audi</option>
+	</select><br />
+	<textarea name="txt_area" rows="10" cols="30"></textarea><br />
+
+    <input type="button" onclick="canviar_a_blau_cel();" name="bt_blau_cel" value="Canviar els items del formulari a blau cel"><br />
+    <input type="button" onclick="canviar_els_labels();" name="bt_labels" value="Canviar els labels a blau cel"><br />
+    </form>
+	<p id="info"></p>
+    </body>
+    </html>

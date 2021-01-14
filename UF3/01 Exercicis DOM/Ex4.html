@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+    <html lang="es-ar">
+    <head>
+    <meta charset="utf-8" />
+    <title>Dropdown list - select box</title>
+    <meta name="description" content="Exercici DOM" />
+    <script type="text/javascript">
+    //<![CDATA[
+
+	function afegir() {
+		var txt=document.getElementById("marca");
+		//alert(txt.value);
+
+		var x=document.getElementById("cotxes");
+
+		var opt = document.createElement("option");
+		x.options.add(opt);
+
+		opt.text = txt.value;
+		opt.value = x.options.length;
+		x.size=x.options.length;
+		txt.value="";
+	}
+
+	function treure() {
+		var x=document.getElementById("cotxes");
+		x.remove(x.selectedIndex);
+		x.size=x.options.length;
+	}
+
+    //]]>
+    </script>
+    </head>
+    <body>
+	<h1>Dropdown list - select box dinàmica</h1>
+
+	<form name="frm_dades_personals" id="formu">
+	Marques de cotxes:
+	<select id="cotxes" name="cotxes">
+	</select><br />
+	<input type="text" id="marca" name="marca" />
+    <input type="button" onclick="afegir();" name="bt_afegir" value="Afegir">
+    <input type="button" onclick="treure();" name="bt_treure" value="Treure"><br />
+    </form>
+	<p id="info"></p>
+    </body>
+    </html>

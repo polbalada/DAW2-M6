@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>Recórrer una taula</title>
+<meta name="description" content="Exercici DOM" />
+<script type="text/javascript">
+function recorrer_llista() {
+    var str="Els països llistats són: ";
+    elem = document.getElementsByTagName("li");
+    for(i=0; i < elem.length; i++)  {
+        //alert(elem[i].innerHTML);
+        str += elem[i].innerHTML + ", ";
+    }   
+    document.getElementById('info').innerHTML = str;
+}
+</script>
+</head>
+<body onload="recorrer_llista()">
+<h1>Llista de països</h1>
+<ul>
+<li>França</li>
+<li>Anglaterra</li>
+<li>Itàlia</li>
+</ul>
+
+<p id="info"></p>
+</body>
+</html>

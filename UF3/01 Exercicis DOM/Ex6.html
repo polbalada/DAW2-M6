@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es-ar">
+<head>
+<meta charset="utf-8" />
+<title>Recórrer una taula</title>
+<meta name="description" content="Exercici DOM" />
+<script type="text/javascript">
+//<![CDATA[
+function anar_sumant() {
+    var textos;
+    var total_habitants = 0;
+    var total_superficie = 0;
+    taula = document.getElementById('paisos');
+    for ( var i = 1 ; i <taula.rows.length;i++ ) {
+        total_habitants += parseInt(taula.rows[i].cells[1].innerHTML);
+        total_superficie += parseInt(taula.rows[i].cells[2].innerHTML);
+    }
+    var info="Número d'habitants: " + total_habitants + "<br />";
+    info = info + "Total superfície: " + total_superficie + "<br />";
+    document.getElementById('info').innerHTML = info;
+}
+//]]>
+</script>
+</head>
+<body onload="anar_sumant()">
+<h1>Taula de països</h1>
+<table name="paisos" id="paisos">
+<tr><td>País</td><td>num hab</td><td>superf</td></tr>
+<tr><td>França</td><td>15</td><td>504000</td></tr>
+<tr><td>Anglaterra</td><td>25</td><td>340000</td></tr>
+<tr><td>Itàlia</td><td>42</td><td>225000</td></tr>
+
+</table>
+
+<p id="info"></p>
+</body>
+</html>
