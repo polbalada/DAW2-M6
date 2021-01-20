@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es">
+<head>
+<title>Formulari de contactes (amb varis mails)</title>
+<script>
+function nou_event1(element, event, funcio, param1) {
+	if (element.addEventListener) { /*Mozilla*/
+		element.addEventListener(event, function(){funcio(param1)}, false);
+	} else { /*IE*/
+		element.attachEvent("on"+event, function(){funcio(param1)});
+	}
+}
+
+function EsMail(element){
+	/*de moment, comprova que hi ha . i @*/
+	var bIsValidMail;
+	bIsValidMail = element.value.indexOf("@")>-1 && element.value.indexOf(".")>-1;
+	if (!bIsValidMail){
+		alert("no valid mail"); /*tr*/
+		//element.value="";
+	}
+	return bIsValidMail;
+}
+
+function new_line_mail(num_div){
+	//he de crear la nova capa de mail, i l'he de ficar en el lloc adequat (el mail2 a sota del mail1, etc)
+	oDiv=document.createElement("div");
+	oDiv.setAttribute("id","mail" + num_div);
+	var oNode=document.getElementById("mail" + parseInt(num_div-1) );
+	oDiv.innerHTML = "<label>Mail: </label> <input type='text' name='mail" + num_div + "' /> <a href='#' onclick='new_line_mail(" + parseInt(num_div+1) + ")' style='text-decoration: none;'>+</a>";
+	oNode.parentNode.appendChild(oDiv);
+	//només cal afegir aquesta línia
+	nou_event1(document.forms[0].elements[num_div+1], 'change', EsMail, document.forms[0].elements[num_div+1]);
+}
+
+</script>
+</head>
+<body>
+Ara volem que tots els mails responguin a l'event onchange i executin la funcio EsMail.
+<form name="frm_registre" action="registre4.htm">
+	<fieldset name="fieldset1">
+		<div id="nom">
+			<label>Nom: </label> <input type="text" name="nom" />
+		</div>
+		<div id="mail1">
+			<label>Mail: </label> <input type="text" name="mail1" /> <a href="#" onclick="new_line_mail(2)" style="text-decoration: none;">+</a>
+		</div>
+	</fieldset>
+	<fieldset name="fieldset2">
+		<input type="submit" value="Enviar">
+	</fieldset>
+</form>
+
+</body>
+</html>
+
+<script>
+    nou_event1(document.forms[0].mail1, 'change', EsMail, document.forms[0].mail1);
+</script>

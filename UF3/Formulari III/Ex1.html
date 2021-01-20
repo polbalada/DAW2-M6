@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es">
+<head>
+<title>Formulari de contactes (amb varis mails)</title>
+<script>
+function EsMail(element){
+	/*de moment, comprova que hi ha . i @*/
+	var bIsValidMail;
+	bIsValidMail = element.value.indexOf("@")>-1 && element.value.indexOf(".")>-1;
+	if (!bIsValidMail){
+		alert("no valid mail"); /*tr*/
+		element.value="";
+	}
+	return bIsValidMail;
+}
+
+</script>
+</head>
+<body>
+Validació del mail. L'event està definit en el formulari (onchange)<br />
+<form name="frm_registre" action="registre1.htm">
+	<fieldset name="fieldset1">
+		<div id="nom">
+			<label>Nom: </label> <input type="text" name="nom" />
+		</div>
+		<div id="mail1">
+			<label>Mail: </label> <input type="text" name="mail1" onchange="EsMail(this)" />
+		</div>
+	</fieldset>
+	<fieldset name="fieldset2">
+		<input type="submit" value="Enviar">
+	</fieldset>
+</form>
+
+</body>
+</html>
