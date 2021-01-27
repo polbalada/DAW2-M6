@@ -4,40 +4,133 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Validació de formularis</title>
+    <script>
+        function comprovarNom(a){
+            if(a === a.toUpperCase()){
+                document.getElementById("nomE").innerHTML = ("No escriguis tot el nom en majuscules");
+            }else{
+                document.getElementById("nomE").innerHTML = ("");
+            }
+        }
+        function comprovarCognom(a){
+            if(a === a.toUpperCase()){
+                document.getElementById("cognomE").innerHTML = ("No escriguis tot el cognom en majuscules");
+            }else{
+                document.getElementById("cognomE").innerHTML = ("");
+            }
+        }
+        function comprovarMail(a){
+            const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+            if(!re.test(String(a).toLowerCase())){
+                document.getElementById("mailE").innerHTML = ("Esriu un mail correcte");
+            }else{
+                document.getElementById("mailE").innerHTML = ("");
+            }
+        }
+        function comprovarData(a){
+            a = a.replace(/-/g,", ")
+            d = new Date(a);
+            t = new Date();
+            if(d>t){
+                document.getElementById("dataE").innerHTML = ("Introdueix una data correcte");
+            }else{
+                document.getElementById("dataE").innerHTML = ("");
+            }
+        }
+        function comprovarUsuari(a){
+            if(a.length<6){
+                document.getElementById("usuariE").innerHTML = ("L'usuari ha de tenir com a minim 6 caracters");
+            }else{
+                document.getElementById("usuariE").innerHTML = ("");
+            }
+        }
+        function comprovarContrasenya(a){
+            var regex = /[0-9]/g;
+            var regex2 = /[A-z]/g;
+            if(!(regex.test(a) && regex2.test(a))){
+                document.getElementById("contrasenyaE").innerHTML = ("La contrasenya ha de contenir com a minim una lletra i un numero");
+            }else{
+                document.getElementById("contrasenyaE").innerHTML = ("");
+            }
+        }
+        function comprovarContrasenya2(a,b){
+            if(a!=b){
+                document.getElementById("contrasenya2E").innerHTML = ("Les contrasenyes no coincideixen");
+            }else{
+                document.getElementById("contrasenya2E").innerHTML = ("");
+            }
+        }
+        function comprovarProvincia(a){
+            if(a!="barcelona"){
+                document.getElementById("provinciaE").innerHTML = ("Nomes disponible per a Barcelona");
+            }else{
+                document.getElementById("provinciaE").innerHTML = ("");
+            }
+        }
+        function comprovarCP(a){
+            var regex = /^08[0-9]{3}$/;
+            if(!regex.test(a)){
+                document.getElementById("cpE").innerHTML = ("Codi postal incorrecte");
+            }else{
+                document.getElementById("cpE").innerHTML = ("");
+            }
+        }
+        function comprovarDireccio(a){
+            var regex = /^C\/.+, ?[0-9]+, ?.+$/;
+            if(!regex.test(a)){
+                document.getElementById("direccioE").innerHTML = ("Direcció incorrecte. Format C/xxx, num yyy, zzz (per ex, C/mossèn Rafel, 23, Palautordera)");
+            }else{
+                document.getElementById("direccioE").innerHTML = ("");
+            }
+        }
+        function comprovarLlista(a){
+            if((a.match(/,/g) || []).length>4 || (a.match(/,/g) || []).length<2){
+                document.getElementById("llistaE").innerHTML = ("Has de de fer una llista de regals separats per comes (,) d'entre 3 i 5 regals");
+            }else{
+                document.getElementById("llistaE").innerHTML = ("");
+            }
+        }
+    </script>
 </head>
 <body>
     <form name="formulari" action="#">
         <label for="nom">Nom:</label><br>
-        <input type="text" id="nom" name="nom"><br>
+        <input type="text" id="nom" name="nom" onchange="comprovarNom(this.value)"><span id="nomE"></span><br>
 
         <label for="cognom">Cognom:</label><br>
-        <input type="text" id="cognom" name="cognom"><br>
+        <input type="text" id="cognom" name="cognom" onchange="comprovarCognom(this.value)"><span id="cognomE"></span><br>
 
         <label for="mail">Correu electronic:</label><br>
-        <input type="text" id="mail" name="mail"><br>
+        <input type="email" id="mail" name="mail" onchange="comprovarMail(this.value)"><span id="mailE"></span><br>
 
         <label for="dataNaxement">Data de Naixement:</label><br>
-        <input type="text" id="dataNaixement" name="dataNaixement"><br>
+        <input type="date" id="dataNaixement" name="dataNaixement" onchange="comprovarData(this.value)"><span id="dataE"></span><br>
 
         <label for="usuari">Usuari:</label><br>
-        <input type="text" id="usuari" name="usuari"><br>
+        <input type="text" id="usuari" name="usuari" onchange="comprovarUsuari(this.value)"><span id="usuariE"></span><br>
 
         <label for="contrasenya">Contrasenya:</label><br>
-        <input type="text" id="contrasenya" name="contrasenya"><br>
+        <input type="password" id="contrasenya" name="contrasenya" onchange="comprovarContrasenya(this.value)"><span id="contrasenyaE"></span><br>
 
         <label for="contrasenya2">Repetir contrasenya:</label><br>
-        <input type="text" id="contrasenya2" name="contrasenya2"><br>
+        <input type="password" id="contrasenya2" name="contrasenya2" onchange="comprovarContrasenya2(this.value, contrasenya.value)"><span id="contrasenya2E"></span><br>
 
-        PROVINCIA
+        <label for="provincia">Provincia</label><br>
+        <select id="provincia" name="provincia" onchange="comprovarProvincia(this.value)">
+          <option value="barcelona">Barcelona</option>
+          <option value="lleida">Lleida</option>
+          <option value="girona">Girona</option>
+          <option value="tarragona">Tarragona</option>
+        </select><span id="provinciaE"></span><br>
 
         <label for="codiPostal">Codi postal:</label><br>
-        <input type="text" id="codiPostal" name="codiPostal"><br>
+        <input type="text" id="codiPostal" name="codiPostal" onchange="comprovarCP(this.value)"><span id="cpE"></span><br>
 
         <label for="direccio">Direcció d'entrega:</label><br>
-        <input type="text" id="direccio" name="direccio"><br>
+        <input type="text" id="direccio" name="direccio" onchange="comprovarDireccio(this.value)" value="C/"><span id="direccioE"></span><br>
 
         <label for="llista">Llista de regals:</label><br>
-        <input type="text" id="llista" name="llista"><br>
+        <input type="text" id="llista" name="llista" onchange="comprovarLlista(this.value)"><span id="llistaE"></span><br>
     </form>
 </body>
 </html>
