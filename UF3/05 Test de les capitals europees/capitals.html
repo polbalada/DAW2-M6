@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test capitals</title>
+    <link rel="stylesheet" href="./css/mycss.css">
+</head>
+
+<body onload="crearTest()">
+    <h1>Test Capitals JavaScript</h1>
+    <script>
+        var pais = [["Albania", "Alemania", "Andorra", "Austria", "Bélgica", "Bielorrusia", "Bosnia-Herzegovina", "Bulgaria", "Chipre", "Croacia", "Dinamarca", "Eslovaquia", "Eslovenia", "España", "Estonia", "Finlandia", "Francia", "Grecia", "Liechtenstein", "Hungría", "Irlanda", "Islandia", "Italia", "Letonia", "Lituania", "Kosovo", "Luxemburgo", "Macedonia", "Malta", "Moldavia", "Mónaco", "Montenegro", "Noruega", "Países Bajos", "Polonia", "Portugal", "Reino Unido", "República Checa", "Rumania", "Rusia", "San Marino", "Serbia", "Suecia", "Suiza", "Ucrania", "Vaticano"], ["Tirana", "Berlín", "Andorra la Vieja", "Viena", "Bruselas", "Minsk", "Sarajevo", "Sofía", "Nicosia", "Zagreb", "Copenhague", "Bratislava", "Liubliana", "Madrid", "Tallin", "Helsinki", "París", "Atenas", "Vaduz", "Budapest", "Dublín", "Reikiavik", "Roma", "Riga", "Vilna", "Pristina", "Luxemburgo", "Skopie", "La Valeta", "Chisináu", "Mónaco", "Podgorica", "Oslo", "Ámsterdam", "Varsovia", "Lisboa", "Londres", "Praga", "Bucarest", "Moscú", "San Marino", "Belgrado", "Estocolmo", "Berna", "Kiev", "Vaticano"]];
+
+        var cont = 0;
+        var correctes = 0;
+        var incorrectes = 0;
+        var term = false;
+
+        function crearTest() {
+
+            var aleatorio = Math.floor(Math.random() * pais[0].length);
+            
+		while (document.getElementById("pais" + aleatorio) && cont < pais[0].length) {
+                aleatorio = Math.floor(Math.random() * (pais[0].length ));
+            }
+
+            if (term) {
+                var resum = document.createElement("div");
+                resum.id = "resum";
+                var p1 = document.createElement("p");
+                var text1 = document.createTextNode("Quantitat de preguntes: " + (cont));
+                var p2 = document.createElement("p");
+                var text2 = document.createTextNode("Respostes correctes: " + correctes);
+                var p3 = document.createElement("p");
+                var text3 = document.createTextNode("Respostes incorrectes: " + incorrectes);
+                var select = document.getElementsByTagName("select");
+                select[select.length-1].setAttribute("disabled","");
+                p1.appendChild(text1);
+                p2.appendChild(text2);
+                p3.appendChild(text3);
+
+                resum.appendChild(p1);
+                resum.appendChild(p2);
+                resum.appendChild(p3);
+                document.body.appendChild(resum);
+            }
+            else if (cont < pais[0].length) {
+                var div = document.createElement('div');
+                div.id = "preg" + aleatorio;
+                var preg = document.createElement('label');
+                var textoPregunta = document.createTextNode(pais[0][aleatorio] + ":");
+                preg.appendChild(textoPregunta);
+
+                div.appendChild(preg);
+
+                var select = document.createElement('select');
+                select.id = "pais" + aleatorio;
+
+                for (var i = 0; i < pais[1].length; i++) {
+                    var option = document.createElement('option');
+                    option.setAttribute("value", pais[1][i]);
+                    textOption = document.createTextNode(pais[1][i]);
+                    option.appendChild(textOption);
+                    select.appendChild(option);
+                }
+                select.setAttribute("onchange", "ressaltar(" + aleatorio + ")");
+                div.appendChild(select);
+
+                var button = document.createElement("button");
+                button.setAttribute("onclick", "terminar()");
+                button.id = "terminar";
+                var textoButton = document.createTextNode("Terminar");
+                button.appendChild(textoButton);
+                div.appendChild(button);
+
+                document.body.appendChild(div);
+            } else {
+                var resum = document.createElement("div");
+                resum.id = "resum";
+                var p1 = document.createElement("p");
+                var text1 = document.createTextNode("Quantitat de preguntes: " + (cont));
+                var p2 = document.createElement("p");
+                var text2 = document.createTextNode("Respostes correctes: " + correctes);
+                var p3 = document.createElement("p");
+                var text3 = document.createTextNode("Respostes incorrectes: " + incorrectes);
+
+                p1.appendChild(text1);
+                p2.appendChild(text2);
+                p3.appendChild(text3);
+
+                resum.appendChild(p1);
+                resum.appendChild(p2);
+                resum.appendChild(p3);
+                document.body.appendChild(resum);
+            }
+        }
+
+        function ressaltar(n, aleatorio) {
+            cont++;
+            var div = document.getElementById("preg" + n);
+            var lista = document.getElementById("pais" + n);
+            var cap = lista.options[lista.selectedIndex];
+            if (cap.value == pais[1][n]) {
+                lista.style.background = "green";
+                correctes++;
+
+            } else {
+                var label = document.createElement("label");
+                label.id = "resposta";
+                var texto = document.createTextNode("La resposta correcta és: " + pais[1][n]);
+                label.appendChild(texto);
+                div.appendChild(label);
+                lista.style.background = "red";
+                incorrectes++;
+            }
+            lista.setAttribute("disabled", "");
+            var b = document.getElementById("Acabar");
+            div.removeChild(b);
+            crearTest(aleatorio);
+
+        }
+        function terminar() {
+            term = true;
+            crearTest();
+        }
+    </script>
+</body>
+
+</html>
