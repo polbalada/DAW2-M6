@@ -70,9 +70,9 @@
                 div.appendChild(select);
 
                 var button = document.createElement("button");
-                button.setAttribute("onclick", "terminar()");
-                button.id = "terminar";
-                var textoButton = document.createTextNode("Terminar");
+                button.setAttribute("onclick", "acabar()");
+                button.id = "acabar";
+                var textoButton = document.createTextNode("acabar");
                 button.appendChild(textoButton);
                 div.appendChild(button);
 
@@ -122,7 +122,7 @@
             crearTest(aleatorio);
 
         }
-        function terminar() {
+        function acabar() {
             term = true;
             crearTest();
         }
