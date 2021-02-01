@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function esCorrecte(valor){
+            var regex = /^[A-z]+, [A-z]+$/;
+            if(!regex.test(valor)){
+                alert("Nom incorrecte");
+            }
+        }
+        function shuffle(a) {
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+    </script>
+</head>
+<body>
+    <div id="div1">
+        Nom:<input type="text" id="nom" onchange="esCorrecte(this.value)"><button onclick="location.reload()">Refresca</button><button onclick="comprova()">Avalua</button>
+        <br>
+    </div>
+    <hr>
+    <div id="div2"></div>
+</body>
+<script>
+    function comprova(){
+        num_correctes=0;
+        for(var i = 0; i < respostes_correctes.length; i++){
+            if (respostes_correctes[i][1]==respostes_usuari[i][1]) {
+                num_correctes++;
+                s = "resposta" + i;
+                document.getElementById(s).style.backgroundColor="lightgreen";
+            }else{
+                s = "resposta" + i;
+                document.getElementById(s).style.backgroundColor="red";
+            }
+        }
+        alert(num_correctes);
+    }
+    var contador=0;
+    var respostes_correctes = [
+        ["indolent", "Que no s'afecta o commou. Insensible, que no sent dolor."],
+        ["eclèctic","Que és compost per elements molt variats i amb poca relació entre ells."],
+        ["vehement","Que actua amb passio i de manera irreflexiva, deixant-se portar pels sentiments o els impulsos."],
+        ["iconoclasta","Qui rebutja la reconeguda autoritat de mestres, normes i models."],
+        ["pusil·lànime","Qui té ànim feble i tímid."],
+        ["desassossec","Falta de tranquil·litat."],
+        ["resiliència","Capacitat de l'individu per a afrontar amb èxit una situació desfavorable o de risc."],
+        ["condescendent","Transigent i tolerant amb els gustos i desitjos dels demés."],
+        ["circunspecte","Qui actua amb circunspecció, és a dir, amb mesura, decòrum, solemnitat i formalitat."],
+        ["rutilant","Que brilla o destaca per algun motiu."],
+        ["peripatètic","Ridícul i extravagant."],
+        ["complaent","Disposat a complaure. Que es complau en alguna cosa."],
+        ["indulgent","Que perdona, que disculpa, fàcilment els errors, les faltes."]
+    ];
+    var respostes_usuari = [
+        ["indolent", ""],
+        ["eclèctic",""],
+        ["vehement",""],
+        ["iconoclasta",""],
+        ["pusil·lànime",""],
+        ["desassossec",""],
+        ["resiliència",""],
+        ["condescendent",""],
+        ["circunspecte",""],
+        ["rutilant",""],
+        ["peripatètic",""],
+        ["complaent",""],
+        ["indulgent",""]
+    ];
+
+    var respostes_random = Array.from(respostes_correctes);
+    shuffle(respostes_random);
+    
+    for(var i = 0; i < respostes_correctes.length; i++){
+        //console.log(respostes_usuari[i][0]);
+        /*for(var j = 0; j < 2; j++){
+            console.log(respostes_correctes[i][j]);
+        }*/
+        
+        para = document.createElement("label");
+        node = document.createTextNode(respostes_usuari[i][0]);
+        element = document.getElementById("div1");
+        para.appendChild(node);
+        s= "paraula" + i;
+        para.id = s
+        element.appendChild(para);
+
+        para = document.createElement("label");
+        node = document.createTextNode("");
+        element = document.getElementById("div1");
+        para.appendChild(node);
+        s= "resposta" + i;
+        para.id = s
+        element.appendChild(para);
+
+        br = document.createElement("br");
+        element.appendChild(br);
+
+        para = document.createElement("label");
+        node = document.createTextNode(respostes_random[i][1]);
+        element = document.getElementById("div2");
+        para.appendChild(node);
+        s="frase" + i;
+        para.id = s
+        para.addEventListener("click", function(){ 
+            //alert(contador++);
+            //alert(this.textContent);
+            a="resposta"+contador;
+            document.getElementById(a).innerHTML += ": " + this.textContent;
+            this.style.display = "none";
+            respostes_usuari[contador][1]=this.textContent;
+            contador++;
+        });
+        element.appendChild(para);
+        
+        br = document.createElement("br");
+        element.appendChild(br);
+
+        
+    }
+    
+</script>
+</html>
