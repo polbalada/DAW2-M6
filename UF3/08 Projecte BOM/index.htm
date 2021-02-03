@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body onload="afegir()">
+    <h1>Licoreria Poporopo - Venta de licors</h1>
+    <div id="div1">
+        <form id="form"></form>
+        <button onclick="afegir()">Afegir</button>
+    </div>
+</body>
+</html>
+<script>
+    var contador=0;
+    var llista_licors = [
+        ["-","0"],
+        ["Jägermeister Mast (Bitters)","19.92"],
+        ["Baileys (licor)","11.20"],
+        ["Khlibniy (vodka)","23.45"],
+        ["Jack Daniels (whiskey USA Tennessee)","17.95"],
+        ["Absolut (vodka)","11.83"],
+        ["Captain Morgan (Ron)","10.40"],
+        ["Red Star Er Guo (vodka de China)","56.61"],
+        ["Bagpiper United Spirits (Whisky indio)","35.95"],
+        ["McDowell ‘s (whisky indio)","11.95"],
+        ["Officer ‘s (whisky indio)","11.95"],
+        ["Johnnie Walker (whisky escocés)","20.50"],
+        ["Pirassunga 51 (cachaça)","50.80"],
+        ["Snow (cerveza)","35.95"],
+        ["Tanduay (ron)","43.57"],
+        ["Bacardi (ron)","14.35"],
+        ["Emperador (brandy)","19.95"],
+        ["San Miguel (ginebra)","10.90"],
+        ["Soju Chum Churum – Lotte Licor (soju)","5.21"],
+        ["Smirnoff (vodka)","12.95"]
+    ];
+
+    
+    function comprova(v){
+        if(v<1){
+            alert("Introdueix un numero valid!");
+            return;
+        }
+
+    }
+    function preu(v,x){
+        id="preutotal"+x;
+        id2="cantitat"+x;
+        cantitat=document.getElementById(id2).value;
+        //console.log(cantitat);
+        //console.log(v);
+
+        for(var i=0;i<llista_licors.length;i++){
+            if(llista_licors[i][0]==v){
+                console.log(llista_licors[i][1]);
+                document.getElementById(id).value=(llista_licors[i][1]*cantitat).toFixed(2);
+                break;
+            }
+        }
+    }
+    function afegir(){
+        if(contador>0){
+            v = "licors" + (contador -1);
+            valorV = document.getElementById(v);
+            //console.log(valorV.value);
+            if(valorV.value=='-'){
+                alert("Error, selecciona un licor per afegir un altre");
+                return;
+            }
+        }
+        
+        
+
+        form=document.getElementById("form");
+        fieldset = document.createElement("fieldset");
+        sele = document.createElement("select");
+        label = document.createElement("label");
+        sele.setAttribute("onchange", "preu(this.value, " + contador + ")");
+
+        node = document.createTextNode("Selecciona el licor: ");
+        label.appendChild(node);
+        
+        sele.id = "licors" + contador;
+
+        fieldset.appendChild(label);
+        fieldset.appendChild(sele);
+        form.appendChild(fieldset);
+
+        for(var i = 0; i < llista_licors.length; i++){
+            para = document.createElement("option");
+            node = document.createTextNode(llista_licors[i][0]);
+            element = document.getElementById("licors" + contador);
+            para.appendChild(node);
+            s= "licor" + i;
+            para.id = s
+            element.appendChild(para);
+        }
+        
+        br = document.createElement("br");
+        fieldset.appendChild(br);
+        
+        
+        node2 = document.createTextNode("Selecciona la cantitat d'ampolles: ");
+        label2 = document.createElement("label");
+        sele2 = document.createElement("input");
+        sele2.setAttribute("type", "number");
+        sele2.setAttribute("value", "1");
+        sele2.setAttribute("onchange", "comprova(this.value)");
+        sele2.id="cantitat"+contador;
+
+        label2.appendChild(node2);
+        fieldset.appendChild(label2);
+        fieldset.appendChild(sele2);
+
+        br2 = document.createElement("br");
+        fieldset.appendChild(br2);
+
+        node3 = document.createTextNode("Preu total: ");
+        label3 = document.createElement("label");
+        sele3 = document.createElement("input");
+        sele3.setAttribute("type", "number");
+        sele3.setAttribute("value", "0");
+        sele3.setAttribute("readonly", "true");
+        sele3.setAttribute("onchange", "comprova(this.value)");
+        sele3.id="preutotal"+contador;
+
+        label3.appendChild(node3);
+        fieldset.appendChild(label3);
+        fieldset.appendChild(sele3);
+
+        contador++;
+    }
+
+    
+</script>

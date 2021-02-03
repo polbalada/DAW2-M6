@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Formulari de contactes (amb varis mails)</title>
+
+</head>
+
+<body>
+
+<h1>Facturació per delegacions</h1>
+<table id="taula_sucursals" border="1">
+<tr><td><b>Delegació</b></td><td><b>Nom</b></td><td><b>Telèfon</b></td><td><b>Mail</b></td></tr>
+<tr><td><a href="#">Barcelona</a></td><td>Arnau Guinovart</td><td>93.345.54.45</td><td>aguinovart@gmail.com</td></tr>
+<tr><td><a href="#">Tarragona</a></td><td>Maria Peris</td><td>977.34.34.22</td><td>mperis@gmail.com</td></tr>
+<tr><td><a href="#">Lleida</a></td><td>Josep Anglerill</td><td>973.33.44.55</td><td>janglerill@gmail.com</td></tr>
+<tr><td><a href="#">Girona</a></td><td>Montserrat Sirera</td><td>972.44.55.66</td><td>msirera@gmail.com</td></tr>
+</table>
+<br />
+<form name="frm_facturacio" method="post" action="facturacio.php" >
+			<label>Sucursal: </label> <input type="text" name="sucursal" readonly />
+			<br />
+
+			<label>Nom: </label> <input type="text" name="nom" readonly />
+			<br />
+
+			<label>Any: </label> 
+			<select name="year" id="year" >
+			</select>
+			<br />
+
+			<label>Trimestre: </label> 
+			<select name="trimestre" id="trimestre">
+			<option value="1">1T</option>
+			<option value="2">2T</option>
+			<option value="3">3T</option>
+			<option value="4">4T</option>
+			</select>
+			<br />
+
+			<label>Facturació: </label> <input type="text"  name="euros" /> (format: punt decimal)
+			<br />
+
+			<input type="submit" value="Enviar" />
+</form>
+</body>
+</html>
+<script>
+    document.body.addEventListener("load", inici(), false);
+
+    function inici() {
+        document.forms[0].euros.addEventListener("change",
+            function (event) {
+                event.preventDefault();
+                validar_numero_2decimals(this);
+            }, 
+            false);
+
+        document.forms[0].addEventListener("submit",
+            function (event) {
+                event.preventDefault();
+                controlar_camps_formulari();
+            }, 
+            false);
+
+        var year = new Date().getFullYear()-1;
+        var month = new Date().getMonth();
+        //console.log(year);
+        var trimestre;
+        if (month>=0 && month<=2) {//hem de posar el trimestre anterior. Si ara estem al trimestre 1, hem de posar el 4
+            trimestre = 4;
+        } else if (month>=3 && month<=5) {
+            trimestre = 1;
+        } else if (month>=6 && month<=8) {
+            trimestre = 2;
+        } else {
+            trimestre = 3;
+        }
+
+        //creem les opcions de la select
+        var sel_year = document.getElementById("year");
+
+        //Create and append the options
+        for (var i = 0; i < 4; i++) {
+            var option = document.createElement("option");
+            option.value = year-i;
+            option.text = year-i;
+            console.log(year-i)
+            if (trimestre==4 && i==1) {
+                option.selected = "selected"
+            } else if (i==year) {
+                option.selected = "selected"
+            }
+            sel_year.appendChild(option);
+        }
+
+        //console.log(trimestre);
+
+        var sel_trimestre = document.getElementById("trimestre");
+        var opcions = sel_trimestre.childNodes;
+        //console.log(opcions)
+        for(var i=0; i<opcions.length; i++) {
+            //console.log(opcions[i].nodeType);
+            if (opcions[i].nodeType==1) {
+                //console.log(opcions[i].value);
+                if(opcions[i].value == trimestre) { //hem de posar selected
+                    opcions[i].selected = "selected"
+                }
+            }
+        }
+
+        //links
+        //https://stackoverflow.com/questions/6041593/adding-click-event-via-addeventlistener-to-confirm-navigation-from-a-hyperlink
+        var links = document.links;
+        var anchors = document.getElementsByTagName("a");
+            //console.log(anchors.length);
+        for (var i=0; i<anchors.length; i++) { //recorrem tots els links
+            //posem els events associats als links
+            anchors[i].addEventListener("click", 
+            function (event) {
+                event.preventDefault();
+                escriure_formulari(this);
+            }, 
+            false);
+        }
+    }
+
+    function escriure_formulari(obj) {
+        console.log(obj.text);
+        var taula = document.getElementById("taula_sucursals");
+        var files = taula.rows;
+        for (i=1;i<files.length; i++) {
+            //alert(files[i].cells[0].innerHTML);
+            str = files[i].cells[0].innerHTML;
+            if (str.indexOf(obj.text) > 0) {
+                //document.frm_facturacio.sucursal.value = obj.text;
+                document.frm_facturacio.sucursal.value = obj.innerHTML;
+                document.frm_facturacio.nom.value = files[i].cells[1].innerHTML;
+            }
+
+        }
+    }
+
+    function validar_numero_2decimals(obj){
+        val = obj.value;
+        //alert(val);
+
+        var patro=/^\d+(\.\d{1,2})?$/;
+        if(!patro.test(val)){
+            obj.value = "";
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    function controlar_camps_formulari(){
+        forms = document.getElementsByTagName("form");
+        for (i=0;i<forms[0].elements.length-1;i++) {
+            //alert(forms[0].elements[i].value);
+            if (forms[0].elements[i].value=="") {
+                alert("camp buit: " + forms[0].elements[i].name);
+                return false;
+            }
+        }
+
+    }
+
+</script>
