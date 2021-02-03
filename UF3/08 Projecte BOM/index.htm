@@ -7,6 +7,7 @@
 </head>
 <body onload="afegir()">
     <h1>Licoreria Poporopo - Venta de licors</h1>
+    <label>Preu Total de la compra:</label><input type="number" value="0" readonly="true" id="preutotal">
     <div id="div1">
         <form id="form"></form>
         <button onclick="afegir()">Afegir</button>
@@ -38,7 +39,15 @@
         ["Smirnoff (vodka)","12.95"]
     ];
 
-    
+    function suma(){
+        sum=0;
+        for(var i=0;i<contador;i++){
+            id="preutotal"+i;
+            sum += parseFloat(document.getElementById(id).value);
+        }
+        //console.log(sum);
+        document.getElementById("preutotal").value=sum.toFixed(2);
+    }
     function comprova(v){
         if(v<1){
             alert("Introdueix un numero valid!");
@@ -55,12 +64,27 @@
 
         for(var i=0;i<llista_licors.length;i++){
             if(llista_licors[i][0]==v){
-                console.log(llista_licors[i][1]);
+                //console.log(llista_licors[i][1]);
                 document.getElementById(id).value=(llista_licors[i][1]*cantitat).toFixed(2);
                 break;
             }
         }
+        suma();
     }
+    function preu2(v,x){
+        id="preutotal"+x;
+        id2="licors"+x;
+        licor = document.getElementById(id2).value;
+        for(var i=0;i<llista_licors.length;i++){
+            if(llista_licors[i][0]==licor){
+                //console.log(llista_licors[i][1]);
+                document.getElementById(id).value=(llista_licors[i][1]*v).toFixed(2);
+                break;
+            }
+        }
+        suma();
+    }
+
     function afegir(){
         if(contador>0){
             v = "licors" + (contador -1);
@@ -108,7 +132,8 @@
         sele2 = document.createElement("input");
         sele2.setAttribute("type", "number");
         sele2.setAttribute("value", "1");
-        sele2.setAttribute("onchange", "comprova(this.value)");
+        //sele2.setAttribute("onchange", "comprova(this.value)");
+        sele2.setAttribute("onchange", "preu2(this.value," + contador + " )");
         sele2.id="cantitat"+contador;
 
         label2.appendChild(node2);
@@ -124,7 +149,7 @@
         sele3.setAttribute("type", "number");
         sele3.setAttribute("value", "0");
         sele3.setAttribute("readonly", "true");
-        sele3.setAttribute("onchange", "comprova(this.value)");
+        sele3.setAttribute("onchange", "suma()");
         sele3.id="preutotal"+contador;
 
         label3.appendChild(node3);
