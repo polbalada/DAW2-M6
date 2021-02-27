@@ -5,32 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script>
-        function loadXMLDoc(url)
-        {
+        function loadXMLDoc(url){
         
         var xmlhttp;
-        var txt,x,xx,i;
-        if (window.XMLHttpRequest)
-          {// code for IE7+, Firefox, Chrome, Opera, Safari
+        var txt="";
+        var x,xx,i;
+        if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
           xmlhttp=new XMLHttpRequest();
           }
-        else
-          {// code for IE6, IE5
+        else{// code for IE6, IE5
           xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
           }
-        xmlhttp.onreadystatechange=function()
-          {
-          if (xmlhttp.readyState==4 && xmlhttp.status==200)
-            {
-            txt="<h2>Ingredients</h2>";
-            txt = txt + "<ul>";
-                x=xmlhttp.responseXML.documentElement.getElementsByTagName("fooditem");
-                for (i=0;i<x.length;i++) {
-                    txt = txt + '<li>' + x[i].firstChild.nodeValue + '</li>';
-                }
-            txt = txt + "</ul>";
+        xmlhttp.onreadystatechange=function(){
+          if (xmlhttp.readyState==4 && xmlhttp.status==200){
+            /* --------------------------------------------------------------------------GENERE/FOTO-------------------------------------------------------------------------- */
+            txt += "<div id=\"foto\">";
+            x=xmlhttp.responseXML.documentElement.getElementsByTagName("genre");
+            txt +="<h3>" + x[0].firstChild.nodeValue + "</h3>";
+            x=xmlhttp.responseXML.documentElement.getElementsByTagName("img");
+            txt += "<img src=recipes/" + x[0].firstChild.nodeValue + ">";
+            txt += "</div>";
+            /* --------------------------------------------------------------------------FINAL GENERE/FOTO-------------------------------------------------------------------------- */
+            /* --------------------------------------------------------------------------INGREDIENTS-------------------------------------------------------------------------- */
+            txt += "<div id=\"ingredients\">";
+            txt +="<h2>Ingredients</h2>";
+            txt += "<ul>";
+            x=xmlhttp.responseXML.documentElement.getElementsByTagName("fooditem");
+            y=xmlhttp.responseXML.documentElement.getElementsByTagName("quantity");
+            /*z=xmlhttp.responseXML.documentElement.getElementsByTagName("unit");
+            console.log(z);
+            console.log(z[5].firstChild.nodeValue);*/
+            for (i=0;i<x.length;i++) {
+                txt += "<li>" + x[i].firstChild.nodeValue + " (" + y[i].firstChild.nodeValue;
+                /*if(z[i].firstChild!=" "){
+                  txt += + " " + z[i].firstChild.nodeValue;
+                } */
+                txt += ")</li>";
+            }
+            txt += "</ul>";
+            txt += "</div>";
+            /* --------------------------------------------------------------------------FINAL INGREDIENTS-------------------------------------------------------------------------- */
+            /* --------------------------------------------------------------------------PREPARACIO-------------------------------------------------------------------------- */
+            txt += "<div id=\"preparacio\">";
+            txt += "<h2>Preparació</h2>";
+            x=xmlhttp.responseXML.documentElement.getElementsByTagName("preparation");
+            txt += "<p>" + x[0].firstChild.nodeValue + "</p>";
+            txt += "</div>";
+            /* --------------------------------------------------------------------------FINAL PREPARACIO-------------------------------------------------------------------------- */
+            /* --------------------------------------------------------------------------PRESENTACIO-------------------------------------------------------------------------- */
+            txt += "<div id=\"presentacio\">";
+            txt += "<h2>Presentació</h2>";
+            x=xmlhttp.responseXML.documentElement.getElementsByTagName("serving");
+            txt += "<p>" + x[0].firstChild.nodeValue + "</p>";
+            txt += "</div>";
+            /* --------------------------------------------------------------------------FINAL PRESENTACIO-------------------------------------------------------------------------- */
+            
             document.getElementById('info').innerHTML=txt;
-            console.log(txt);
             }
           }
         xmlhttp.open("GET",url,true);
@@ -45,11 +75,10 @@
     <form name="frm_receptes" id="formu" action="#">
         <select name="recipes" onchange="loadXMLDoc(this.value)">
         <option value="recipes/bean-and-ham.xml">bean and ham</option>
-        <option value="recipes/corn-chowder.xml">corn chowder</option>
+        <option value="recipes/brownies.xml">brownies</option>
         </select><br />
     </form>
     </div>
-    <div id="info">
-    </div>
+    <div id="info"></div>
 </body>
 </html>
