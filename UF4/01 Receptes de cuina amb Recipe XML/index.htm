@@ -12,12 +12,18 @@
         var x,xx,i;
         if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
           xmlhttp=new XMLHttpRequest();
-          }
+        }
         else{// code for IE6, IE5
           xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-          }
+        }
         xmlhttp.onreadystatechange=function(){
           if (xmlhttp.readyState==4 && xmlhttp.status==200){
+            /* --------------------------------------------------------------------------TITOL-------------------------------------------------------------------------- */
+            txt += "<div id=\"titol\">";
+            x=xmlhttp.responseXML.documentElement.getElementsByTagName("title");
+            txt +="<h2>" + x[0].firstChild.nodeValue + "</h2>";
+            txt += "</div>";
+            /* --------------------------------------------------------------------------FINAL TITOL-------------------------------------------------------------------------- */
             /* --------------------------------------------------------------------------GENERE/FOTO-------------------------------------------------------------------------- */
             txt += "<div id=\"foto\">";
             x=xmlhttp.responseXML.documentElement.getElementsByTagName("genre");
@@ -30,17 +36,29 @@
             txt += "<div id=\"ingredients\">";
             txt +="<h2>Ingredients</h2>";
             txt += "<ul>";
-            x=xmlhttp.responseXML.documentElement.getElementsByTagName("fooditem");
-            y=xmlhttp.responseXML.documentElement.getElementsByTagName("quantity");
-            /*z=xmlhttp.responseXML.documentElement.getElementsByTagName("unit");
-            console.log(z);
-            console.log(z[5].firstChild.nodeValue);*/
+
+            x = xmlhttp.responseXML.documentElement.getElementsByTagName("ingredient");
+            
             for (i=0;i<x.length;i++) {
-                txt += "<li>" + x[i].firstChild.nodeValue + " (" + y[i].firstChild.nodeValue;
-                /*if(z[i].firstChild!=" "){
-                  txt += + " " + z[i].firstChild.nodeValue;
-                } */
-                txt += ")</li>";
+              txt +="<li>";
+              for (n=0;n<x[i].childNodes.length;n++){
+                if(x[i].childNodes[n].nodeName == "quantity"){
+                  if (x[i].childNodes[n].childNodes.length > 0) {
+                    txt += x[i].childNodes[n].childNodes[0].nodeValue + " ";
+                  }
+                }
+                if(x[i].childNodes[n].nodeName == "unit"){
+                  if (x[i].childNodes[n].childNodes.length > 0) {
+                    txt += x[i].childNodes[n].childNodes[0].nodeValue + " de ";
+                  }
+                }
+                if(x[i].childNodes[n].nodeName == "fooditem"){
+                  if (x[i].childNodes[n].childNodes.length > 0) {
+                    txt += x[i].childNodes[n].childNodes[0].nodeValue;
+                  }
+                }
+              }
+              txt +="</li>";
             }
             txt += "</ul>";
             txt += "</div>";
@@ -65,9 +83,8 @@
           }
         xmlhttp.open("GET",url,true);
         xmlhttp.send();
-        
-        }
-        </script>
+      }
+    </script>
 </head>
 <body>
     <h1>Receptes</h1>
