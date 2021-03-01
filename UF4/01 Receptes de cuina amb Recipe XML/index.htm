@@ -7,6 +7,9 @@
   <title>Document</title>
   <script>
     function loadXMLDoc(url) {
+      if(url==""){
+        return;
+      }
       url = "recipes/" + url;
       var xmlhttp;
       var txt = "";
