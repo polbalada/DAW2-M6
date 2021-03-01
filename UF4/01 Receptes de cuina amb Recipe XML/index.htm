@@ -73,10 +73,11 @@
           /* --------------------------------------------------------------------------FINAL PREPARACIO-------------------------------------------------------------------------- */
           /* --------------------------------------------------------------------------PRESENTACIO-------------------------------------------------------------------------- */
           try{
+            x = xmlhttp.responseXML.documentElement.getElementsByTagName("serving");
+            e = "<p>" + x[0].firstChild.nodeValue + "</p>";
             txt += "<div id=\"presentacio\">";
             txt += "<h2>Presentació</h2>";
-            x = xmlhttp.responseXML.documentElement.getElementsByTagName("serving");
-            txt += "<p>" + x[0].firstChild.nodeValue + "</p>";
+            txt += e;
             txt += "</div>";
           }catch(error){
 
