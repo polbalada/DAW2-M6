@@ -1,3 +1,6 @@
+<?php
+header("Access-Control-Allow-Origin: *");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,7 +13,7 @@
       if(url==""){
         return;
       }
-      url = "recipes/" + url;
+      //url = "recipes/" + url;
       var xmlhttp;
       var txt = "";
       var x, xx, i;
@@ -102,16 +105,9 @@
     <form name="frm_receptes" id="formu" action="#">
       <select name="recipes" onchange="loadXMLDoc(this.value)">
         <option value=""></option>
-        <option value="brownies.xml">brownies</option>
-        <option value="bean-and-ham.xml">bean-and-ham</option>
-        <option value="arros_mitic.xml">arros_mitic</option>
-        <option value="ArrozChaufa.xml">ArrozChaufa</option>
-        <option value="cassoulet.xml ">cassoulet</option>
-        <option value="cebichePeruano.xml">cebichePeruano</option>
-        <option value="feijoada.xml">feijoada</option>
-        <option value="llenties.xml">llenties</option>
-        <option value="melocoton_vino.xml">melocoton_vino</option>
-        <option value="migas_aragonesas.xml">migas_aragonesas</option>
+        <?php
+        include 'list_recipes_callback.php'
+        ?>
       </select><br />
     </form>
   </div>

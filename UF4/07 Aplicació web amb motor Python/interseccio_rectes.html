@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Intersecció de dues rectes</title>
+<style>
+/* https://fonts.google.com/?selection.family=Acme */
+@import url(http://fonts.googleapis.com/css?family=Lilita+One:400,700);
+#resultat {
+  font: 16px "Lilita One", sans-serif; font-size: 200%; font-weight: 400;
+}
+label {
+	display:inline-block;
+	width: 50px;
+}
+</style>
+</head>
+<body>
+<h1>Intersecció de dues rectes (mètode POST)</h1>
+<form>
+	<label>recta1: </label><input type="text" name="recta1" id="recta1" /><label>&nbsp;(y=mx+b)</label><br />
+	<label>recta2: </label><input type="text" name="recta2" id="recta2" /><label>&nbsp;(y=mx+b)</label><br />
+	<input type="button" id='script' name="calcular" value="calcular" onclick="goPython()">
+</form>
+<div id="resultat"></div>
+<div id="grafica"></div>
+<script>
+function goPython(){
+	var xmlhttp;
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange=function()
+	{
+		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+		{
+			txt_resposta=xmlhttp.responseText.split("*")[0];
+			document.getElementById("resultat").innerHTML = txt_resposta;
+			document.getElementById("grafica").innerHTML = "<img src=\"python/img/" + xmlhttp.responseText.split("*")[1] + ".png\" />"
+		} else {
+			document.getElementById("resultat").innerHTML = "";
+			document.getElementById("grafica").innerHTML = "<img src=\"python/img/ajax-loading.gif\" />"
+		}
+	}
+
+	let recta1 = document.getElementById("recta1").value;
+	let recta2 = document.getElementById("recta2").value;
+
+	let m1 = recta1.substring(recta1.indexOf('=')+1, recta1.indexOf('x'))
+	let b1 = recta1.substring(recta1.indexOf('x')+1, recta1.length)
+	let m2 = recta2.substring(recta2.indexOf('=')+1, recta2.indexOf('x'))
+	let b2 = recta2.substring(recta2.indexOf('x')+1, recta2.length)
+
+	if (m1=="-") m1="-1" //y=-x+3, per ex
+	if (m2=="-") m2="-1"
+	if (m1=="") m1="1" //y=x+3, per ex
+	if (m2=="") m2="1"
+
+	console.log(m1 + " " + b1 + " " + m2 + " " + b2);
+
+	xmlhttp.open("POST", "http://localhost:80", true);
+	xmlhttp.send("m1=" + m1 + "&b1=" + b1 + "&m2=" + m2 + "&b2=" + b2);
+
+}
+    </script>
+
+</body>
+</html>
