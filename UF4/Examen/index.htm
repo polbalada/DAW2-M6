@@ -1,0 +1,95 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+
+<head>
+  <title>Examen</title>
+  <meta name="keywords" content="" />
+  <meta name="description" content="" />
+  <meta http-equiv="content-type" content="text/html charset=utf-8" />
+  <style>
+    table, th, td {
+        border: 1px solid black;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+  </style>
+  <script>
+    function inici(){
+        refranys();
+        mostra_estiacions();
+    }
+    function refranys() {
+      var xmlhttp;
+      var txt;
+      xmlhttp = new XMLHttpRequest();
+
+      xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+          txt = xmlhttp.responseText;		
+          var jsondata = JSON.parse(txt);
+          var items = jsondata.refranys;
+          var output="";
+          for (var i = 0; i < items.length; i++) {
+            output += "<h2>" + items[i].estacio + "</h2><ol>";
+            for(var n = 0; n < items[i].refranys.length; n++){
+                output += "<li>" + items[i].refranys[n] + "</li>";
+            }
+            output += "</ol>"
+          }
+          document.getElementById("refranys").innerHTML = output;
+        }
+      }
+      xmlhttp.open("GET", "refranys.json", true);
+      xmlhttp.send();
+
+    }
+
+    function mostra_estiacions() {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("estacio").innerHTML = this.responseText;
+            }
+        }
+        xmlhttp.open("GET", "mostra_estacions.php", true);
+        xmlhttp.send();
+    }
+
+    function filtra() {
+        let filtre = document.getElementById('filtre').value
+        let estacio= document.getElementById('estacio').value
+
+        if (filtre.length == 0) {
+            document.getElementById("resultat").innerHTML = "";
+            return;
+        } else {
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("resultat").innerHTML = this.responseText;
+                }
+            }
+            xmlhttp.open("GET", "cerca_refrany.php?f=" + filtre + "&e=" + estacio, true);
+            xmlhttp.send();
+        }
+    }
+  </script>
+</head>
+
+<body onload='inici()' >
+  <h1>Llista Estacions</h1>
+  <div id="refranys"></div>
+  <hr>
+  <div>
+      <select id="estacio" onchange="filtra()"></select>
+      <input type="text" id="filtre" onchange="filtra()">
+      <div id="resultat"></div>
+  </div>
+  
+</body>
+
+</html>
